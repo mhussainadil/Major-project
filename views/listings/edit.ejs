@@ -1,40 +1,22 @@
+<% layout('/layouts/boilerPlate') -%>
 
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WanderLust</title>
-  </head>
-  <body>
-    <h3>Create a New Listing</h3>
-    <form method="POST" action="/listings">
-      <input name="title" placeholder="enter title" type="text" />
-      <br /><br />
-      <textarea
-        name="description"
-        placeholder="enter description"
-        value=""
-      ></textarea>
-      <br /><br />
-      <input
-        name="image"
-        placeholder="enter image URL/Link"
-        type="text"
-      />
-      <br /><br />
-      <input name="price" placeholder="enter price" type="number" />
-      <br /><br />
-      <input name="country" placeholder="enter country" type="text" />
-      <br /><br />
-      <input
-        name="location"
-        placeholder="enter location"
-        type="text"
-      />
-      <br /><br />
-      <button>Add</button>
-    </form>
-  </body>
-</html>
+<body>
+  <h3>Create a New Listing</h3>
+  <form method="POST" action="/listings/<%=listItem._id%>?_method=PUT">
+    <input name="title" placeholder="enter title" type="text" value="<%=listItem.title%>" />
+    <br /><br />
+    <textarea name="description" placeholder="enter description">
+    <%=listItem.description%>
+    </textarea>
+    <br /><br />
+    <input value="<%=listItem.image%>" name="image" placeholder="enter image URL/Link" type="text" />
+    <br /><br />
+    <input name="price" placeholder="enter price" type="number" value="<%=listItem.price%>" />
+    <br /><br />
+    <input name="country" placeholder="enter country" type="text" value="<%=listItem.country%>" />
+    <br /><br />
+    <input value="<%=listItem.location%>" name="location" placeholder="enter location" type="text" />
+    <br /><br />
+    <button>Add</button>
+  </form>
+</body>

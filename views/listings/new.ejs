@@ -1,34 +1,26 @@
-
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WanderLust</title>
-  </head>
+<% layout('/layouts/boilerPlate') -%>
   <body>
     <h3>Create a New Listing</h3>
     <form method="POST" action="/listings">
-      <input name="title" placeholder="enter title" type="text" />
+      <input required name="listings[title]" placeholder="enter title" type="text" />
       <br /><br />
       <textarea
-        name="description"
+        name="listings[description]"
         placeholder="enter description"
       ></textarea>
       <br /><br />
       <input
-        name="image"
+        name="listings[image]"
         placeholder="enter image URL/Link"
         type="text"
       />
       <br /><br />
-      <input name="price" placeholder="enter price" type="number" />
+      <input name="listings[price]" placeholder="enter price" type="number" />
       <br /><br />
-      <input name="country" placeholder="enter country" type="text" />
+      <input name="listings[country]" placeholder="enter country" type="text" />
       <br /><br />
       <input
-        name="location"
+        name="listings[location]"
         placeholder="enter location"
         type="text"
       />
@@ -36,4 +28,3 @@
       <button>Add</button>
     </form>
   </body>
-</html>

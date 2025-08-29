@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%=info.title%></title>
-    <style>
-       
-    </style>
-</head>
+<% layout('/layouts/boilerPlate') -%>
+
 <body>
     <div class="container">
         <div class="header"></div>
@@ -18,10 +10,10 @@
         
          <p><b>Price &#8377;<%=info.price.toLocaleString("en-IN")%></b></p>
        Location  <%=info.location%>
-         <br>Country <%=info.country%>
+         <br>Country <%=info.country%>  
          </div>
+         <br>
+<a href="/listings/<%=info._id%>/edit">Edit Listing</a>
 
-         
     </div>
 </body>
-</html>
