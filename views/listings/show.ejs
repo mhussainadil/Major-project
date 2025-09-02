@@ -5,15 +5,27 @@
         <div class="header"></div>
          <div class="info">
             <b>Listing Details</b>
-            <h4><%=info.title%></h4>
+             <div class="card">
+          <img class="card-img-top" src="<%=info.image%>"  style="height: 20rem;" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%=info.title%>
+            </h5>
+            <p class="card-text">
+           Price: <b> &#8377;<%=info.price? Number(info.price).toLocaleString("en-IN") : "N/A"%></b> / night
+            </p>
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+          </div>
+<a class="btn " href="/listings/<%=info._id%>/edit">Edit Listing</a>
+        </div>
+            <!-- <h4><%=info.title%></h4>
          <p class="desc">Description : <%=info.description%></p>
         
          <p><b>Price &#8377;<%=info.price.toLocaleString("en-IN")%></b></p>
        Location  <%=info.location%>
          <br>Country <%=info.country%>  
          </div>
-         <br>
-<a href="/listings/<%=info._id%>/edit">Edit Listing</a>
+         <br> -->
 
     </div>
 </body>

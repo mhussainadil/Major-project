@@ -1,7 +1,52 @@
+/* Global Font Setup */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 400;
+  color: #2B2B2B;
+  line-height: 1.7;
+  margin: 0;
+  background: #FDFDFD;  /* super clean background */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  /* font-weight: 700; */
+  color: #111;
+  margin-bottom: 0.6em;
+  letter-spacing: -0.4px; /* sleek premium look */
+}
+
+/* Links */
+a {
+  text-decoration: none;  
+  color: #3B82F6;  /* modern startup blue */
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+
+/* Buttons & CTAs */
+button, .cta {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  background: #3B82F6;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 22px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background 0.25s ease, transform 0.12s ease, box-shadow 0.2s;
+}
+
+
+
+
+
 .navbar{
     height: 5rem !important;
     background-color: white;
-    
 }
 .fa-compass{
     font-size: 2rem;
@@ -10,4 +55,66 @@
 
 .nav-link{
     color: #222 !important;
+}
+.f-info{
+    height: 8rem;
+    background-color: #ebebeb;
+    border-top: #222;
+    color: #222;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+text-align: center;
+font-size: 1.2rem;
+    
+}
+.f-info-links,.f-info-socials,.f-info-brand{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+/* footer{
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+} */
+.f-info-socials i{
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+.f-info-links a {
+    text-decoration: none;
+    color: #222;
+    margin-right: 10px;
+    /* right: 50px; */
+
+}
+.f-info-links:hover{
+    text-decoration: underline;
+}
+/* cards */
+.card{
+    margin-bottom: 2rem;
+    border: none !important;
+}
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.card-img-top:hover{
+    cursor: pointer;
+}
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: rgb(255, 255, 255);
+}
+form button{
+    background-color:#fe424d;
 }
