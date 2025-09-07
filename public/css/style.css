@@ -6,12 +6,18 @@ body {
   line-height: 1.7;
   margin: 0;
   background: #FDFDFD;  /* super clean background */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container{
+    flex: 1;
 }
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  /* font-weight: 700; */
+  font-weight: 700;
   color: #111;
   margin-bottom: 0.6em;
   letter-spacing: -0.4px; /* sleek premium look */
@@ -67,6 +73,7 @@ button, .cta {
     align-items: center;
 text-align: center;
 font-size: 1.2rem;
+margin-top: 1.5rem;
     
 }
 .f-info-links,.f-info-socials,.f-info-brand{
@@ -117,4 +124,14 @@ font-size: 1.2rem;
 }
 form button{
     background-color:#fe424d;
+}
+.add-btn{
+    background-color: #fe424d;
+    margin-bottom: 1rem ;
+}
+.add-btn:hover{
+    transform: scale(1.1) !important;
+    background-color: #2B2B2B;
+    color: #ebebeb;
+    border: whitesmoke;
 }

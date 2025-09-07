@@ -5,7 +5,7 @@ let methodOverride = require("method-override");
 let ejsmate=require("ejs-mate");
 app.engine("ejs",ejsmate);
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "/views"));
+app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -82,7 +82,8 @@ app.get('/listings/:id/edit', async (req, res) => {
         let id = req.params.id;
         console.log(id);
         let listItem = await Listing.findOne({ _id: id });
-        res.render("./listings/edit.ejs", { listItem });
+        console.log(listItem)
+        res.render("listings/edit.ejs", { listItem });
     } catch (e) {
         console.log(e)
     }
