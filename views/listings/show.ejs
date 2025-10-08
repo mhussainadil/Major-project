@@ -1,31 +1,33 @@
 <% layout('/layouts/boilerPlate') -%>
 
-<body>
-    <div class="container">
-        <div class="header"></div>
-         <div class="info">
-            <b>Listing Details</b>
-             <div class="card">
-          <img class="card-img-top" src="<%=info.image%>"  style="height: 20rem;" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">
-              <%=info.title%>
-            </h5>
-            <p class="card-text">
-           Price: <b> &#8377;<%=info.price? Number(info.price).toLocaleString("en-IN") : "N/A"%></b> / night
-            </p>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-          </div>
-<a class="btn " href="/listings/<%=info._id%>/edit">Edit Listing</a>
-        </div>
-            <!-- <h4><%=info.title%></h4>
-         <p class="desc">Description : <%=info.description%></p>
-        
-         <p><b>Price &#8377;<%=info.price.toLocaleString("en-IN")%></b></p>
-       Location  <%=info.location%>
-         <br>Country <%=info.country%>  
-         </div>
-         <br> -->
+<div class="row">
+  <div class="col-8 offset-2">
+    <h3 class="h3 mt-4 mb-3 text-center">Listing Details</h3>
 
+    <div class="card shadow-lg mb-4">
+      <img class="card-img-top" src="<%= info.image %>" alt="Listing Image" style="height: 20rem; object-fit: cover;">
+      
+      <div class="card-body">
+        <h5 class="card-title fw-bold mb-3"><%= info.title %></h5>
+        
+        <p class="card-text mb-2">
+          <strong>Description:</strong> <%= info.description || "No description available." %>
+        </p>
+
+        <p class="card-text mb-2">
+          <strong>Price:</strong> &#8377;<b><%= info.price ? Number(info.price).toLocaleString("en-IN") : "N/A" %></b> / night
+        </p>
+
+        <p class="card-text mb-2">
+          <strong>Location:</strong> <%= info.location || "N/A" %>
+        </p>
+
+        <p class="card-text mb-3">
+          <strong>Country:</strong> <%= info.country || "N/A" %>
+        </p>
+
+        <a href="/listings/<%= info._id %>/edit" class="btn btn-dark mt-2">Edit Listing</a>
+      </div>
     </div>
-</body>
+  </div>
+</div>

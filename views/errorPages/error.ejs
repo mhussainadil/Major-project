@@ -1,0 +1,11 @@
+<% layout("/layouts/boilerPlate.ejs") %>
+
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100 text-center">
+  <img src="/images/penguine2.png" 
+       alt="Error Penguin" 
+       class="img-fluid mb-4" 
+       style="max-width: 500px; height: auto;">
+  
+  <h1 class="text-danger fw-bold display-4">Error: <%= status %></h1>
+  <h3 class="mt-3 text-secondary"><%= message %></h3>
+</div>

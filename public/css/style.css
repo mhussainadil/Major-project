@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   color: #111;
   margin-bottom: 0.6em;
-  letter-spacing: -0.4px; /* sleek premium look */
+  letter-spacing: -0.4px;  /* sleek premium look */
 }
 
 /* Links */
@@ -125,12 +125,12 @@ margin-top: 1.5rem;
 form button{
     background-color:#fe424d;
 }
-.add-btn{
+.add-btn,.edit-btn{
     background-color: #fe424d;
     margin-bottom: 1rem ;
 }
 .add-btn:hover{
-    transform: scale(1.1) !important;
+    /* transform: scale(1.1) !important; */
     background-color: #2B2B2B;
     color: #ebebeb;
     border: whitesmoke;

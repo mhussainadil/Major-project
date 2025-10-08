@@ -2,46 +2,56 @@
 
 
 <!-- <body> -->
-  <h3 class="h3 mb-3 p-2">Edit Your Listing</h3>
-  <form method="POST" class="row" action="/listings/<%=listItem._id%>?_method=PUT">
+  <form method="POST" class="row needs-validation " novalidate  action="/listings/<%=listItem._id%>?_method=PUT">
     <div class="col-8 offset-2">
-
-
+  <h3 class="h3 mt-3 pl-3">Edit Your Listing</h3>
     <div class="mb-3">
   <label for="title"  class="form-label">Title</label>
-    <input name="title" id="title" class="form-control" placeholder="enter title" type="text" value="<%=listItem.title%>" />
-    </div>
+    <input required name="listings[title]" id="title" class="form-control" placeholder="enter title" type="text" value="<%=listItem.title%>" />
+      <div class="invalid-feedback">
+            Title is Required!
+          </div> 
+  </div>
        <div class="mb-3">
   <label for="desc" class="form-label">Description</label>
   
-  <textarea id="desc" name="description"class="form-control"  placeholder="enter description">
+  <textarea id="desc" required name="listings[description]"class="form-control"  placeholder="enter description">
     <%=listItem.description%>
-    </textarea> 
+    </textarea>
+        <div class="invalid-feedback">
+            Description is Required!
+          </div> 
        </div>
   
        <div class="mb-3">
   <label for="img" class="form-label">Image</label>
         
-            <input id="img" value="<%=listItem.image%>" class="form-control"   name="image" placeholder="enter image URL/Link" type="text" />
+            <input id="img" required value="<%=listItem.image%>" class="form-control"   name="listings[image]" placeholder="enter image URL/Link" type="text" />
   
   </div>
        <div class="mb-3">
   <label for="price" class="form-label">Price</label>
         
-    <input name="price" id="price" class="form-control" placeholder="enter price" type="number" value="<%=listItem.price%>" />
-
+    <input  required name="listings[price]" id="price" class="form-control" placeholder="enter price" type="number" value="<%=listItem.price%>" />
+    <div class="invalid-feedback">
+            price is Required!
+          </div>
   </div>
        <div class="mb-3">
   <label for="country" class="form-label">Country</label>
         
-    <input name="country" id="country" class="form-control" placeholder="enter country" type="text" value="<%=listItem.country%>" />
-    
+    <input required name="listings[country]" id="country" class="form-control" placeholder="enter country" type="text" value="<%=listItem.country%>" />
+        <div class="invalid-feedback">
+            country is Required!
+          </div>
       </div>
        <div class="mb-3">
-  <label for="location" class="form-label">Location</label>
+  <label  for="location" class="form-label">Location</label>
         
-    <input value="<%=listItem.location%>" class="form-control" name="location" placeholder="enter location" type="text" />
-    
+    <input required value="<%=listItem.location%>" class="form-control" name="listings[location]" placeholder="enter location" type="text" />
+        <div class="invalid-feedback">
+            location is Required!
+          </div>
       </div>
     
     <button class="btn btn-dark edit-btn">Edit</button>
