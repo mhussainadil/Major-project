@@ -18,6 +18,9 @@ main()
   async function init(){
 try{
   await Listing.deleteMany({});
+  initData.data=initData.data.map((obj=>({
+    ...obj, owner: "69b147e8a03c69cd95539948"
+  })))
 await Listing.insertMany(initData.data);
 console.log("data is saved newly!")
 }catch (e){

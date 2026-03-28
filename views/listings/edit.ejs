@@ -1,9 +1,8 @@
 <% layout('/layouts/boilerPlate') -%>
-
-
 <!-- <body> -->
+
   <form method="POST" class="row needs-validation " novalidate  action="/listings/<%=listItem._id%>?_method=PUT">
-    <div class="col-8 offset-2">
+      <div class="col-8 offset-2">
   <h3 class="h3 mt-3 pl-3">Edit Your Listing</h3>
     <div class="mb-3">
   <label for="title"  class="form-label">Title</label>
@@ -54,7 +53,11 @@
           </div>
       </div>
     
-    <button class="btn btn-dark edit-btn">Edit</button>
+    <button class="btn btn-dark   edit-btn">Edit</button>
+
         </div>
   </form>
+   <form class="ms-3 col-6 offset-2  " action="/listings/<%=listItem._id%>/delete?_method=DELETE" method="post">
+      <button  class="ms-3 delete-btn mt-0 mb-3 btn btn-outline-dark">Delete</button>
+    </form>
 <!-- </body> -->

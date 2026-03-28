@@ -2,6 +2,7 @@ let express = require("express");
 let app = express();
 let path = require("path");
 let methodOverride = require("method-override");
+const mongoose = require('mongoose');
 let ejsmate = require("ejs-mate");
 app.engine("ejs", ejsmate);
 app.set("view engine", "ejs");
@@ -10,73 +11,84 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
+//models requiring
+const Listing = require("./models/listing");
+const Review = require("./models/review")
+const User=require("./models/user.js")
+//passport.js configuration for auth & secure session's
+let passport=require("passport") 
+let passportLocalStrategy=require("passport-local");
+let passportLocalMongoose=require("passport-local-mongoose");
+
+// requiring cookie parser & express session 
+let cookieParser = require("cookie-parser");
+let expressSession = require("express-session");
+let flash = require("connect-flash")
 const http = require("http");
 const cors = require('cors');
+//configuration of session
+app.use(expressSession({
+    secret: "mysecretcode",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    }
+}))
+//compulsary lines for passport library usage to impliment autheticated secure session mgmt
+///////////////////////////////////////////////////////////
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportLocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use(cookieParser())
+app.use(flash());
 app.use(cors());
-app.listen(8080, () => {
-    console.log(`server is live on: ${`http://localhost:8080/listings`}`);
+
+//setting connectflash as a middleWare 
+//note: this must be setup as a middleware before the express routes required ****
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    res.locals.error=req.flash("error")
+    res.locals.currUser=req.user;
+    // console.log(req.user);
+    next();
 })
 
-const mongoose = require('mongoose');
-const Listing = require("./models/listing");
-const asyncWrap=require("./utils/wrapAsync");
+// Joi based Validation on listings,reviews
+const { listingSchema, reviewSchema } = require("./schema.js");
+//utility code
 const expressError = require("./utils/expressError");
-const {listingSchema}=require("./schema.js");
-main().then(() => {
-    console.log("connected to DBASE");
-}).catch(err => console.log(err));
+const asyncWrap = require("./utils/wrapAsync");
 
-async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+// express routes
+let listingRoute = require("./routes/listingRoutes.js");
+let reviewRoute = require("./routes/reviewRoutes.js");
+let userRoute=require("./routes/userRoutes.js")        ////////////////////////////
+//router setup for parameters passing on desired routes via  mergeParams: true
+let router = express.Router({ mergeParams: true });
+
+//routes match with the Parent path
+app.use("/listings", listingRoute); 
+app.use("/listings/:id/review", reviewRoute)
+app.use("/user",userRoute)
 
 
-}
-
-app.get("/",  (req, res) => {
+app.get("/", (req, res) => {
     res.send("HOME ROUTE");
 })
-
-
-
 let userauth = (req, res, next) => {
     console.log(req.query)
     let { token } = req.query;
-
     if (token === "giveaccess") {
         return next();
     }
     let e = new expressError(403, "UnAuthorized Access!");
     res.status(e.status).render(`errorPages/error`, { status: e.status, message: e.message });
-
 }
-
-let validationOfJoi=(req,res,next)=>{
-    let resultOfJoi=listingSchema.validate(req.body);
-    if(resultOfJoi.error){
-        next(resultOfJoi.error);
-    }else{
-        next();
-    }
-}
-app.get("/listings",
-    asyncWrap(async (req, res) => {
-        let data = await Listing.find({});
-        res.render("listings/index.ejs", { data });
-    }))
-app.get("/listings/new", (req, res) => {
-    res.render("listings/new.ejs")
-})
-app.get("/listings/:id", asyncWrap(
-    async (req, res) => {
-    const id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new expressError(403,"Listing Not Found");
-    }
-    const data = await Listing.findById(id);
-    // console.log(data._id);
-    res.render("listings/show.ejs", { info: data })
-}))
-
 
 //Error handling check-
 app.get("/err", (req, res, next) => {
@@ -85,69 +97,24 @@ app.get("/err", (req, res, next) => {
 
     } catch (e) {
         next(e);
-   }
+    }
 })
 
-app.post("/listings", validationOfJoi,
-asyncWrap(    async (req, res,next) => {
-    // const newlisting = new Listing(
-    //     {
-    //         title: req.body.title,
-    //         description: req.body.description,
-    //         image: req.body.image,
-    //         price: req.body.price,
-    //         country: req.body.country,
-    //         location: req.body.location,
-    //     }
-    // )
-    //    await newlisting.save().then((data) =>
-    //     console.log(data)
-    //     )
-    const newlisting = req.body;
-    console.log(newlisting);
-    Listing.insertOne(newlisting).then(resa => {
-        console.log(resa)
-    }).catch(e => {
-    next(e);
-    })
-    res.redirect("/listings")
-
-}));
-
-
-app.get('/listings/:id/edit',asyncWrap( async (req, res) => {
-            let id = req.params.id;
-        console.log(id);
-        let listItem = await Listing.findOne({ _id: id });
-        console.log(listItem)
-        res.render("listings/edit.ejs", { listItem });
-}))
-app.put("/listings/:id([0-9a-fA-F]{24})",validationOfJoi,asyncWrap( async (req, res,next) => {
-    
-        let id = req.params.id;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-          next(new expressError(400,"Bad request - invalid update request!"));
-        }
-        console.log(req.body)
-        Listing.updateOne({ _id: id }, { $set:req.body.listings }, { runValidators: true, new: true }).then(res => {
-            console.log(res);
-        })
-        res.redirect(`/listings`);
-    
-}))
-
-
-app.all("*",(req,res,next)=>{
-  next(new expressError(404,"Page Not Found !..."))
-}) 
-
+// app.all("*",(req,res,next)=>{
+//   next(new expressError(404,"Page Not Found !..."))
+// }) 
 
 app.use((err, req, res, next) => {
-    // console.log("--err------------------\t\t\t", err.status + err.message);
     const status = err.status || 500;
     const message = err.message || "internal Server Error";
     res.status(status).render(`errorPages/error`, { status, message });
-    
 })
-
-
+main().then(() => {
+    console.log("connected to DBASE");
+}).catch(err => console.log(err));
+async function main() {
+    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+}
+app.listen(8080, () => {
+    console.log(`server is live on: ${`http://localhost:8080/listings`}`);
+})

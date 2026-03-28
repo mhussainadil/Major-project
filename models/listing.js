@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
-
+const Review=require("./review");
 let listingSchema = new schema({
     title: {
         type: String,
@@ -32,8 +32,26 @@ let listingSchema = new schema({
         required: true
 
     },
+    review:[
+        {type: schema.Types.ObjectId,
+        ref:"Review"}
+    ]
+    ,
+    owner:{
+        type:schema.Types.ObjectId,
+        ref:"User"
+
+    }
 })
 
+//mongoose middleware for deleting the reviews , related to the deleted post/listings
+// note: this middleware must be written just before model creation as in this file 
+listingSchema.post("findOneAndDelete",async (listing)=>{
+    if(listing){
+let allreviewsDeleted=await Review.deleteMany({_id:{$in:listing.review}});
+console.log(allreviewsDeleted +" Listing Related Reviews deleted`")
+    }
+})
 const Listing = mongoose.model("Listing", listingSchema);
 
 module.exports = Listing;

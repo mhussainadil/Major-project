@@ -1,33 +1,93 @@
 <% layout('/layouts/boilerPlate') -%>
 
-<div class="row">
-  <div class="col-8 offset-2">
-    <h3 class="h3 mt-4 mb-3 text-center">Listing Details</h3>
+  <div class="row">
+    <div class="col-8  offset-2">
+      <h3 class="h3 mt-4 mb-3 text-center">
+        <%= info.title %>
+      </h3>
 
-    <div class="card shadow-lg mb-4">
-      <img class="card-img-top" src="<%= info.image %>" alt="Listing Image" style="height: 20rem; object-fit: cover;">
-      
-      <div class="card-body">
-        <h5 class="card-title fw-bold mb-3"><%= info.title %></h5>
-        
-        <p class="card-text mb-2">
-          <strong>Description:</strong> <%= info.description || "No description available." %>
-        </p>
+      <div class="card   listing-card shadow mb-4">
+        <img class="card-img-top" src="<%= info.image %>" alt="Listing Image" style="height: 20rem; object-fit: cover;">
 
-        <p class="card-text mb-2">
-          <strong>Price:</strong> &#8377;<b><%= info.price ? Number(info.price).toLocaleString("en-IN") : "N/A" %></b> / night
-        </p>
+        <div class="card-body">
+          <!-- <h5 class="card-title fw-bold mb-3"><%= info.title %></h5>
+         -->
+          <p class="card-text mb-2">
+            <strong>Description:</strong>
+            <%= info.description || "No description available." %>
+          </p>
 
-        <p class="card-text mb-2">
-          <strong>Location:</strong> <%= info.location || "N/A" %>
-        </p>
+          <p class="card-text mb-2">
+            <strong>Price:</strong> &#8377;<b>
+              <%= info.price ? Number(info.price).toLocaleString("en-IN") : "N/A" %>
+            </b> / night
+          </p>
 
-        <p class="card-text mb-3">
-          <strong>Country:</strong> <%= info.country || "N/A" %>
-        </p>
+          <p class="card-text mb-2">
+            <strong>Location:</strong>
+            <%= info.location || "N/A" %>
+          </p>
 
-        <a href="/listings/<%= info._id %>/edit" class="btn btn-dark mt-2">Edit Listing</a>
+          <p class="card-text mb-3">
+            <strong>Country:</strong>
+            <%= info.country || "N/A" %>
+          </p>
+<% if(currUser&& currUser._id.equals(info.owner._id)) {%>
+          <a href="/listings/<%= info._id %>/edit" class="btn btn-dark mt-2">Edit Listing</a>
+      <% }%>
+          <hr>
+
+<% if(currUser){%>          
+          <div class="mt-4 mb-3">
+            <h4>Leave A Review </h4>
+            <form action="/listings/<%= info._id %>/review" method="post" novalidate class="needs-validation">
+              <div class="mt-4 mb-3 ">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="range" required class="mb-3 form-range" name="review[rating]" id="rating" min="1" max="5">
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="invalid-feedback">
+                  Rating is Required!
+                </div>
+              </div>
+              <div class="mt-4 mb-3">
+                <label for="comment" class="form-label">Comments</label>
+                <textarea required name="review[comment]" class="form-control" id="comment" cols="30"
+                  rows="10"></textarea>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+
+                <div class="invalid-feedback">
+                  Comment is Required(100-200 words)
+                </div>
+              </div>
+              <button type="submit" class="btn btn-outline-dark mt-3 ml-5">Submit Review</button>
+            </form>
+          </div>
+          <%}%>
+          <hr>
+          <h4>All Reviews </h4>
+          <div class="row ">
+            <% if (info.review && info.review.length> 0) { %>
+              <% for (let eachrev of info.review) { %>
+                <div class="card col-sm-11 col-lg-5 mb-3 ms-3">
+                  <div class="card-body">
+                    <h5 class="card-title"><%=eachrev.author.username%></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Rating: <%= eachrev.rating %> Star</h6>
+                    <p class="card-text">
+                      <%= eachrev.comment %>
+                    </p>
+                    <p class="text-muted"><%=eachrev.createdAt.toLocaleDateString("en-US")%></p>
+                  </div>
+                </div>
+                <% } %>
+                  <% } else { %>
+                    <p>No reviews yet.</p>
+                    <% } %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>

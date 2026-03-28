@@ -103,7 +103,7 @@ margin-top: 1.5rem;
     text-decoration: underline;
 }
 /* cards */
-.card{
+.listing-card{
     margin-bottom: 2rem;
     border: none !important;
 }
